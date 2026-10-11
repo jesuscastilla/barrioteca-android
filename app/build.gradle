@@ -21,8 +21,8 @@ android {
         applicationId 'com.lebeche.barrioteca'
         minSdk 28
         targetSdk 37
-        versionCode 100
-        versionName '5.0.0'
+        versionCode 101
+        versionName '5.0.1'
 
         // Dominio principal y URL del proxy PHP que expone la API de SLiMS.
         // Se centralizan aqui para no hardcodearlas por todo el codigo.
