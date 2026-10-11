@@ -15,3 +15,5 @@ class App : Application() {
         }
     }
 }
+
+// TODO: Agadir resizable
