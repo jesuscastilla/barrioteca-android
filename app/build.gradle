@@ -127,7 +127,7 @@ publishing {
     repositories {
         maven {
             name = 'GitHubPackages'
-            url = uri('https://maven.pkg.github.com/jesuscastilla/acalenca-barrioteca-app-android-v2')
+            url = uri('https://maven.pkg.github.com/jesuscastilla/barrioteca-android')
             credentials {
                 username = System.getenv('GITHUB_ACTOR') ?: 'local'
                 password = System.getenv('GITHUB_TOKEN') ?: 'local'

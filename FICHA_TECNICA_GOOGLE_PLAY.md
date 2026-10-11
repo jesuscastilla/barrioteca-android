@@ -1,7 +1,7 @@
 # Ficha técnica — Google Play · Barrioteca Acalencá
 
 > Documento de referencia para subir / actualizar la app en **Google Play Console**.
-> Repo: `barrioteca-android-app-v2` · Última revisión: **2026-10-09**.
+> Repo: `barrioteca-android` · Última revisión: **2026-10-09**.
 
 ---
 
@@ -193,8 +193,8 @@ La Barrioteca es un proyecto de la asociación Lebeche. ¡Hazte socia y particip
 
 ## 9. Enlaces útiles
 
-- Repo: `https://github.com/jesuscastilla/acalenca-barrioteca-app-android-v2`
-- Releases (APK+AAB): `https://github.com/jesuscastilla/acalenca-barrioteca-app-android-v2/releases`
-- GitHub Packages (Maven, APK): `https://github.com/jesuscastilla/acalenca-barrioteca-app-android-v2/packages`
+- Repo: `https://github.com/jesuscastilla/barrioteca-android`
+- Releases (APK+AAB): `https://github.com/jesuscastilla/barrioteca-android/releases`
+- GitHub Packages (Maven, APK): `https://github.com/jesuscastilla/barrioteca-android/packages`
 - Política de privacidad: `https://www.corrientelebeche.es/barrioteca/privacidad.html`
 - Contexto general del proyecto: `G:\GITHUB\CONTEXT.md`

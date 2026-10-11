@@ -37,7 +37,7 @@ CameraX + ML Kit Barcode Scanning · WorkManager · Firebase Cloud Messaging.
 ## Compilar
 
 ```powershell
-cd G:\GITHUB\barrioteca-android-app-v2
+cd G:\GITHUB\barrioteca-android
 $env:JAVA_HOME='C:\Program Files\Android\Android Studio\jbr'
 $env:ANDROID_HOME='C:\Users\jesus\AppData\Local\Android\Sdk'
 .\gradlew.bat :app:assembleDebug        # APK de desarrollo
@@ -79,13 +79,13 @@ Salidas:
 ## Disponibilidad
 
 - **Google Play**: publicada como *Barrioteca Acalencá* (`com.lebeche.barrioteca`).
-- **Releases (APK + AAB)**: https://github.com/jesuscastilla/acalenca-barrioteca-app-android-v2/releases
-- **GitHub Packages (APK)**: https://github.com/jesuscastilla/acalenca-barrioteca-app-android-v2/packages
+- **Releases (APK + AAB)**: https://github.com/jesuscastilla/barrioteca-android/releases
+- **GitHub Packages (APK)**: https://github.com/jesuscastilla/barrioteca-android/packages
 - **Política de privacidad**: https://www.corrientelebeche.es/barrioteca/privacidad.html
 - **Ficha técnica Play**: `FICHA_TECNICA_GOOGLE_PLAY.md`
 
 ## Repositorio
 
-- `https://github.com/jesuscastilla/acalenca-barrioteca-app-android-v2`
+- `https://github.com/jesuscastilla/barrioteca-android`
 
 > Contexto general del proyecto en `g:\GITHUB\CONTEXT.md`.
