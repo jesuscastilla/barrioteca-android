@@ -16,10 +16,9 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,65 +60,66 @@ fun BarriotecaApp() {
         unauthTab = UnauthTab.Login
     }
 
-    Scaffold(
-        topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .statusBarsPadding()
-                    .padding(horizontal = 8.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                ThemeToggle()
-            }
-        },
-        bottomBar = {
-            NavigationBar {
-                if (member == null) {
-                    UnauthTab.entries.forEach { t ->
-                        NavigationBarItem(
-                            selected = unauthTab == t,
-                            onClick = { unauthTab = t },
-                            icon = { Icon(t.icon, contentDescription = t.label) },
-                            label = { Text(t.label) }
-                        )
-                    }
-                } else {
-                    AuthTab.entries.forEach { t ->
-                        NavigationBarItem(
-                            selected = authTab == t,
-                            onClick = { authTab = t },
-                            icon = { Icon(t.icon, contentDescription = t.label) },
-                            label = { Text(t.label) }
-                        )
-                    }
+    NavigationSuiteScaffold(
+        navigationSuiteItems = {
+            if (member == null) {
+                UnauthTab.entries.forEach { t ->
+                    item(
+                        selected = unauthTab == t,
+                        onClick = { unauthTab = t },
+                        icon = { Icon(t.icon, contentDescription = t.label) },
+                        label = { Text(t.label) }
+                    )
+                }
+            } else {
+                AuthTab.entries.forEach { t ->
+                    item(
+                        selected = authTab == t,
+                        onClick = { authTab = t },
+                        icon = { Icon(t.icon, contentDescription = t.label) },
+                        label = { Text(t.label) }
+                    )
                 }
             }
         }
-    ) { padding ->
-        Box(Modifier.fillMaxSize().padding(padding)) {
-            if (member == null) {
-                when (unauthTab) {
-                    UnauthTab.Login -> LoginScreen(onLoggedIn = { m ->
-                        member = m
-                        authTab = AuthTab.Home
-                    })
-                    UnauthTab.Catalog -> CatalogScreen(member = null)
-                    UnauthTab.About -> AboutScreen()
+    ) {
+        Scaffold(
+            topBar = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .statusBarsPadding()
+                        .padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    ThemeToggle()
                 }
-            } else {
-                when (authTab) {
-                    AuthTab.Home -> DashboardScreen(member = member!!)
-                    AuthTab.Catalog -> CatalogScreen(member = member!!)
-                    AuthTab.Scan -> ScanScreen(member = member!!)
-                    AuthTab.Settings -> SettingsScreen(
-                        member = member!!,
-                        onLogout = {
-                            Prefs.clearMember(context)
-                            member = null
-                            unauthTab = UnauthTab.Login
-                        }
-                    )
+            }
+        ) { padding ->
+            Box(Modifier.fillMaxSize().padding(padding)) {
+                if (member == null) {
+                    when (unauthTab) {
+                        UnauthTab.Login -> LoginScreen(onLoggedIn = { m ->
+                            member = m
+                            authTab = AuthTab.Home
+                        })
+                        UnauthTab.Catalog -> CatalogScreen(member = null)
+                        UnauthTab.About -> AboutScreen()
+                    }
+                } else {
+                    when (authTab) {
+                        AuthTab.Home -> DashboardScreen(member = member!!)
+                        AuthTab.Catalog -> CatalogScreen(member = member!!)
+                        AuthTab.Scan -> ScanScreen(member = member!!)
+                        AuthTab.Settings -> SettingsScreen(
+                            member = member!!,
+                            onLogout = {
+                                Prefs.clearMember(context)
+                                member = null
+                                unauthTab = UnauthTab.Login
+                            }
+                        )
+                    }
                 }
             }
         }

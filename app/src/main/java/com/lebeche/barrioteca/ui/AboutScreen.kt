@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -30,45 +31,50 @@ fun AboutScreen() {
     val context = LocalContext.current
 
     Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp)
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            "Sobre el proyecto",
-            style = MaterialTheme.typography.headlineMedium,
-            fontStyle = FontStyle.Italic,
-            fontWeight = FontWeight.Bold
-        )
-        
-        Spacer(Modifier.height(24.dp))
-
-        Text(
-            "La Barrioteca Acalencá es una iniciativa para fomentar la lectura y el intercambio cultural. Nuestro objetivo es crear una biblioteca autogestionada, accesible para todas las vecinas.",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        
-        Spacer(Modifier.height(16.dp))
-        
-        Text(
-            "A través de esta aplicación puedes consultar nuestro catálogo libremente. Además, si eres socia, puedes identificarte para pedir libros prestados y gestionar tus devoluciones cómodamente desde tu teléfono.",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        
-        Spacer(Modifier.height(32.dp))
-
-        Button(
-            onClick = {
-                val intent = Intent(Intent.ACTION_VIEW, "https://www.corrientelebeche.es".toUri())
-                context.startActivity(intent)
-            },
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            Modifier
+                .widthIn(max = 520.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp)
         ) {
-            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null)
-            Text("  Visitar nuestra web")
+            Text(
+                "Sobre el proyecto",
+                style = MaterialTheme.typography.headlineMedium,
+                fontStyle = FontStyle.Italic,
+                fontWeight = FontWeight.Bold
+            )
+            
+            Spacer(Modifier.height(24.dp))
+    
+            Text(
+                "La Barrioteca Acalencá es una iniciativa para fomentar la lectura y el intercambio cultural. Nuestro objetivo es crear una biblioteca autogestionada, accesible para todas las vecinas.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            
+            Spacer(Modifier.height(16.dp))
+            
+            Text(
+                "A través de esta aplicación puedes consultar nuestro catálogo libremente. Además, si eres socia, puedes identificarte para pedir libros prestados y gestionar tus devoluciones cómodamente desde tu teléfono.",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            
+            Spacer(Modifier.height(32.dp))
+    
+            Button(
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, "https://www.corrientelebeche.es".toUri())
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null)
+                Text("  Visitar nuestra web")
+            }
         }
     }
 }

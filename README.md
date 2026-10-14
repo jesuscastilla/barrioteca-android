@@ -58,6 +58,7 @@ Salidas:
 
 ## Últimos cambios
 
+- **Soporte adaptativo para pantallas grandes (Tablets, Chromebooks, ChromeOS)**: La actividad es completamente redimensionable (`resizeableActivity="true"`). Se ha implementado `NavigationSuiteScaffold` (cambia automáticamente de barra inferior a riel lateral), rejillas dinámicas para catálogos y préstamos (`LazyVerticalGrid`, `FlowRow`) y límites de ancho en los formularios.
 - **Botón "Atrás" corregido**: ya no cierra/envía a segundo plano la app. Al pulsar Atrás en una
   sección del menú vuelve a la sección principal (Inicio/Entrar) y, dentro del escáner, vuelve a la
   pantalla anterior (login o préstamo/devolución) mediante `BackHandler`.

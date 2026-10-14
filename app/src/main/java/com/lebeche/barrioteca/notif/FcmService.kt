@@ -7,6 +7,7 @@ import com.lebeche.barrioteca.data.Prefs
 
 class FcmService : FirebaseMessagingService() {
 
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onNewToken(token: String) {
         Log.d("FCM", "New token: $token")
         // Guarda el token localmente.
