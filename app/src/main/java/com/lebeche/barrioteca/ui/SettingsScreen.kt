@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -44,102 +45,110 @@ fun SettingsScreen(member: Member, onLogout: () -> Unit) {
     val scope = rememberCoroutineScope()
 
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            "Ajustes",
-            style = MaterialTheme.typography.headlineMedium,
-            fontStyle = FontStyle.Italic,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(Modifier.height(16.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        Column(
+            Modifier
+                .widthIn(max = 520.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
         ) {
-            Column(Modifier.padding(16.dp)) {
-                Text(
-                    "Socia conectada",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    member.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    "ID: ${member.id}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+            Text(
+                "Ajustes",
+                style = MaterialTheme.typography.headlineMedium,
+                fontStyle = FontStyle.Italic,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(Modifier.height(16.dp))
+    
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            ) {
+                Column(Modifier.padding(16.dp)) {
+                    Text(
+                        "Socia conectada",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        member.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        "ID: ${member.id}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
+    
+            Spacer(Modifier.height(16.dp))
+    
+            Button(
+                onClick = {
+                    scope.launch {
+                        SyncEngine.sync(context)
+                        Toast.makeText(context, "Sincronización completada", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Sync, contentDescription = null)
+                Text("  Sincronizar ahora")
+            }
+    
+            Spacer(Modifier.height(8.dp))
+    
+            OutlinedButton(
+                onClick = {
+                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                        data = "mailto:monderas@corrientelebeche.es".toUri()
+                    }
+                    try {
+                        context.startActivity(intent)
+                    } catch (_: Exception) {
+                        Toast.makeText(
+                            context,
+                            "No hay ninguna app de correo configurada.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Email, contentDescription = null)
+                Text("  Contactar administración")
+            }
+    
+            Spacer(Modifier.height(8.dp))
+    
+            OutlinedButton(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {
+                Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null)
+                Text("  Cerrar sesión")
+            }
+    
+            Spacer(Modifier.height(24.dp))
+    
+            Text(
+                "Sobre la app",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = buildAnnotatedString {
+                    append("Versión nativa de la Barrioteca Acalencá.\n\nTodos los datos se sincronizan ")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append("cifrados")
+                    }
+                    append(" en nuestro propio servidor autogestionado. Nada se sube a internet ni se comparte con terceros.")
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
-
-        Spacer(Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                scope.launch {
-                    SyncEngine.sync(context)
-                    Toast.makeText(context, "Sincronización completada", Toast.LENGTH_SHORT).show()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(Icons.Filled.Sync, contentDescription = null)
-            Text("  Sincronizar ahora")
-        }
-
-        Spacer(Modifier.height(8.dp))
-
-        OutlinedButton(
-            onClick = {
-                val intent = Intent(Intent.ACTION_SENDTO).apply {
-                    data = "mailto:monderas@corrientelebeche.es".toUri()
-                }
-                try {
-                    context.startActivity(intent)
-                } catch (_: Exception) {
-                    Toast.makeText(
-                        context,
-                        "No hay ninguna app de correo configurada.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(Icons.Filled.Email, contentDescription = null)
-            Text("  Contactar administración")
-        }
-
-        Spacer(Modifier.height(8.dp))
-
-        OutlinedButton(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {
-            Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null)
-            Text("  Cerrar sesión")
-        }
-
-        Spacer(Modifier.height(24.dp))
-
-        Text(
-            "Sobre la app",
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(Modifier.height(8.dp))
-        Text(
-            text = buildAnnotatedString {
-                append("Versión nativa de la Barrioteca Acalencá.\n\nTodos los datos se sincronizan ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("cifrados")
-                }
-                append(" en nuestro propio servidor autogestionado. Nada se sube a internet ni se comparte con terceros.")
-            },
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }

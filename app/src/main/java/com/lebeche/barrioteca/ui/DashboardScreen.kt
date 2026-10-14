@@ -1,6 +1,8 @@
 package com.lebeche.barrioteca.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -111,7 +113,21 @@ fun DashboardScreen(member: Member) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            else -> loans.forEach { loan -> LoanCard(loan) }
+            else -> {
+                // Adapt to multiple columns using FlowRow
+                @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
+                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
+                ) {
+                    loans.forEach { loan ->
+                        Box(modifier = Modifier.weight(1f, fill = false)) {
+                            LoanCard(loan)
+                        }
+                    }
+                }
+            }
         }
     }
 }
