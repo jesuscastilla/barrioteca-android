@@ -90,3 +90,20 @@ Salidas:
 - `https://github.com/jesuscastilla/barrioteca-android`
 
 > Contexto general del proyecto en `g:\GITHUB\CONTEXT.md`.
+
+## Herramientas
+
+- [Kotlin](https://kotlinlang.org/) — lenguaje de la app.
+- [Jetpack Compose](https://developer.android.com/jetpack/compose) y [Material 3](https://m3.material.io/) — interfaz.
+- [OkHttp](https://square.github.io/okhttp/) — cliente HTTP.
+- [Coil](https://coil-kt.github.io/coil/) — carga de imágenes (portadas).
+- [CameraX](https://developer.android.com/training/camerax) y [ML Kit Barcode Scanning](https://developers.google.com/ml-kit/vision/barcode-scanning) — escáner.
+- [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) — sincronización periódica.
+- [Firebase Cloud Messaging](https://firebase.google.com/products/cloud-messaging) — notificaciones push.
+- [Gradle](https://gradle.org/) — build.
+- [GitHub Actions](https://github.com/features/actions) — CI/CD.
+
+## Mantenimiento automático
+
+Este repositorio es revisado **cada noche** por agentes automáticos que buscan bugs en el código. Por ello, entre las **03:00** y las **05:00** es probable que no todo funcione correctamente.
+
