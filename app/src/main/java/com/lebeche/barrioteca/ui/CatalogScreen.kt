@@ -53,11 +53,13 @@ fun CatalogScreen(member: Member?) {
         loading = false
     }
 
-    val filtered = if (query.isBlank()) books else books.filter { b ->
-        b.title.contains(query, ignoreCase = true) ||
-            b.author.contains(query, ignoreCase = true) ||
-            b.isbn.contains(query.trim()) ||
-            b.itemCode.contains(query.trim())
+    val filtered = remember(query, books) {
+        if (query.isBlank()) books else books.filter { b ->
+            b.title.contains(query, ignoreCase = true) ||
+                b.author.contains(query, ignoreCase = true) ||
+                b.isbn.contains(query.trim()) ||
+                b.itemCode.contains(query.trim())
+        }
     }
 
     Column(Modifier.fillMaxSize().padding(16.dp)) {

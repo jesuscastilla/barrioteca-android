@@ -164,10 +164,13 @@ private fun LoanCard(loan: Loan) {
     }
 }
 
+private val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+private val outputDateFormat = SimpleDateFormat("d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-ES"))
+
 private fun formatDate(dateStr: String): String {
     if (dateStr.isBlank()) return "—"
     return runCatching {
-        val d = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(dateStr.trim()) ?: return dateStr
-        SimpleDateFormat("d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-ES")).format(d)
+        val d = synchronized(inputDateFormat) { inputDateFormat.parse(dateStr.trim()) } ?: return dateStr
+        synchronized(outputDateFormat) { outputDateFormat.format(d) }
     }.getOrDefault(dateStr)
 }
