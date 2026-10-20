@@ -100,7 +100,7 @@ dependencies {
     implementation 'com.google.android.play:app-update-ktx:2.1.0'
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:35.0.0')
+    implementation platform('com.google.firebase:firebase-bom:35.0.2')
     implementation 'com.google.firebase:firebase-messaging'
 
     // Tests unitarios (JVM)
@@ -150,7 +150,7 @@ publishing {
 // La publicación a Maven debe esperar a que exista el APK release: sin esta
 // dependencia, Gradle valida el artefacto antes de que `assembleRelease` lo
 // genere y `publish` falla con "artifact file does not exist".
-tasks.withType(org.gradle.api.publish.maven.tasks.PublishToMavenRepository).configureEach {
+tasks.withType(PublishToMavenRepository).configureEach {
     dependsOn 'assembleRelease'
 }
 
