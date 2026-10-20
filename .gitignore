@@ -28,6 +28,10 @@ Thumbs.db
 .DS_Store
 desktop.ini
 
+# Directorios de Jules y reportes
+.Jules/
+build/reports/
+
 # Logs de build locales (no deben versionarse)
 *.log
 *-log.txt
