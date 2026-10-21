@@ -32,7 +32,8 @@ import com.lebeche.barrioteca.data.Member
 import com.lebeche.barrioteca.data.RefreshSignal
 import com.lebeche.barrioteca.data.SlmsApi
 import com.lebeche.barrioteca.data.parseLoans
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
@@ -164,13 +165,13 @@ private fun LoanCard(loan: Loan) {
     }
 }
 
-private val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-private val outputDateFormat = SimpleDateFormat("d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-ES"))
+private val inputDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)
+private val outputDateFormat = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-ES"))
 
 private fun formatDate(dateStr: String): String {
     if (dateStr.isBlank()) return "—"
     return runCatching {
-        val d = synchronized(inputDateFormat) { inputDateFormat.parse(dateStr.trim()) } ?: return dateStr
-        synchronized(outputDateFormat) { outputDateFormat.format(d) }
+        val d = LocalDate.parse(dateStr.trim(), inputDateFormat)
+        d.format(outputDateFormat)
     }.getOrDefault(dateStr)
 }

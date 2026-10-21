@@ -4,15 +4,11 @@ import com.lebeche.barrioteca.sync.DateUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.time.LocalDate
 
 class DateUtilsTest {
 
-    private val fmt = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-
-    private fun date(s: String): Date = fmt.parse(s)!!
+    private fun date(s: String): LocalDate = LocalDate.parse(s)
 
     @Test
     fun daysUntil_positiveForFutureDate() {
@@ -31,12 +27,12 @@ class DateUtilsTest {
 
     @Test
     fun daysUntil_blankReturnsNull() {
-        assertNull(DateUtils.daysUntil("", Date()))
+        assertNull(DateUtils.daysUntil("", LocalDate.now()))
     }
 
     @Test
     fun daysUntil_invalidReturnsNull() {
-        assertNull(DateUtils.daysUntil("no-es-fecha", Date()))
+        assertNull(DateUtils.daysUntil("no-es-fecha", LocalDate.now()))
     }
 
     @Test

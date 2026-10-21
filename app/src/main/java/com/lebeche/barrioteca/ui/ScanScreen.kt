@@ -37,8 +37,8 @@ import com.lebeche.barrioteca.data.Prefs
 import com.lebeche.barrioteca.data.RefreshSignal
 import com.lebeche.barrioteca.data.SlmsApi
 import com.lebeche.barrioteca.data.TxLog
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlinx.coroutines.launch
 
@@ -69,7 +69,7 @@ fun ScanScreen(member: Member) {
                 TxLog(
                     id = System.currentTimeMillis().toString(),
                     timestamp = System.currentTimeMillis(),
-                    timeLabel = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date()),
+                    timeLabel = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")),
                     action = action,
                     code = code,
                     status = if (res.success) "success" else "error",
