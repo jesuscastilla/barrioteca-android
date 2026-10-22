@@ -96,7 +96,7 @@ fun SettingsScreen(member: Member, onLogout: () -> Unit) {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(Icons.Filled.Sync, contentDescription = null)
+                Icon(Icons.Filled.Sync, contentDescription = "Sincronizar ahora")
                 Text("  Sincronizar ahora")
             }
     
@@ -119,14 +119,14 @@ fun SettingsScreen(member: Member, onLogout: () -> Unit) {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(Icons.Filled.Email, contentDescription = null)
+                Icon(Icons.Filled.Email, contentDescription = "Contactar administración")
                 Text("  Contactar administración")
             }
     
             Spacer(Modifier.height(8.dp))
     
             OutlinedButton(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {
-                Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null)
+                Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Cerrar sesión")
                 Text("  Cerrar sesión")
             }
     

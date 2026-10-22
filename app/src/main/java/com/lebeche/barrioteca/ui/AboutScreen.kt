@@ -72,7 +72,7 @@ fun AboutScreen() {
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null)
+                Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = "Abrir web en el navegador")
                 Text("  Visitar nuestra web")
             }
         }

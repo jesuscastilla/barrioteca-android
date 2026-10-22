@@ -171,7 +171,7 @@ fun LoginScreen(onLoggedIn: (Member) -> Unit) {
             enabled = !loading,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Icon(Icons.Filled.QrCodeScanner, contentDescription = null)
+            Icon(Icons.Filled.QrCodeScanner, contentDescription = "Escanear carné")
             Spacer(Modifier.height(0.dp))
             Text("  Escanear carné (QR o código de barras)")
         }

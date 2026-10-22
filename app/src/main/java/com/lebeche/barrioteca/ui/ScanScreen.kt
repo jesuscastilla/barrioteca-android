@@ -130,7 +130,7 @@ fun ScanScreen(member: Member) {
                 enabled = !busy,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(Icons.Filled.QrCodeScanner, contentDescription = null)
+                Icon(Icons.Filled.QrCodeScanner, contentDescription = "Escanear libro")
                 Text("  Escanear libro")
             }
         }
