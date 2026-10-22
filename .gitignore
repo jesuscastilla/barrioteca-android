@@ -19,8 +19,6 @@ app/build/
 .idea/
 *.iml
 .vscode/
-
-# Herramientas de IA
 .artifacts/
 
 # Sistema operativo
@@ -28,8 +26,6 @@ Thumbs.db
 .DS_Store
 desktop.ini
 
-# Directorios de Jules y reportes
-.Jules/
 build/reports/
 
 # Logs de build locales (no deben versionarse)
