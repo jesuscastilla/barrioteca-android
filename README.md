@@ -37,9 +37,9 @@ CameraX + ML Kit Barcode Scanning · WorkManager · Firebase Cloud Messaging.
 ## Compilar
 
 ```powershell
-cd G:\GITHUB\barrioteca-android
-$env:JAVA_HOME='C:\Program Files\Android\Android Studio\jbr'
-$env:ANDROID_HOME='C:\Users\jesus\AppData\Local\Android\Sdk'
+# Configurar variables de entorno (ajustar rutas según tu sistema)
+$env:JAVA_HOME = "$env:ProgramFiles\Android\Android Studio\jbr"
+$env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk"
 .\gradlew.bat :app:assembleDebug        # APK de desarrollo
 .\gradlew.bat :app:assembleRelease     # APK firmado (requiere keystore.properties)
 .\gradlew.bat :app:testDebugUnitTest   # Tests unitarios JVM
@@ -88,8 +88,7 @@ Salidas:
 ## Repositorio
 
 - `https://github.com/jesuscastilla/barrioteca-android`
-
-> Contexto general del proyecto en `g:\GITHUB\CONTEXT.md`.
+- Proyecto integrado en el ecosistema digital de la Asociación Lebeche.
 
 ## Herramientas
 
