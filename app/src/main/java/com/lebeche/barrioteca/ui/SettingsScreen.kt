@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Button
@@ -128,6 +129,19 @@ fun SettingsScreen(member: Member, onLogout: () -> Unit) {
             OutlinedButton(onClick = onLogout, modifier = Modifier.fillMaxWidth()) {
                 Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Cerrar sesión")
                 Text("  Cerrar sesión")
+            }
+            
+            Spacer(Modifier.height(8.dp))
+
+            OutlinedButton(
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, "https://www.corrientelebeche.es".toUri())
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = "Visitar sitio web")
+                Text("  Visitar nuestra web")
             }
     
             Spacer(Modifier.height(24.dp))
