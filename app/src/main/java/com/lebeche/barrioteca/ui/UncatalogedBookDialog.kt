@@ -1,7 +1,5 @@
 package com.lebeche.barrioteca.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,8 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.launch
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,10 +34,12 @@ fun UncatalogedBookDialog(
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var title by remember { mutableStateOf("") }
     var zone by remember { mutableStateOf("") }
     var name by remember { mutableStateOf(memberName) }
     var email by remember { mutableStateOf("") }
+    var sending by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -102,31 +104,29 @@ fun UncatalogedBookDialog(
                             Toast.makeText(context, "El título y nombre son obligatorios", Toast.LENGTH_SHORT).show()
                             return@Button
                         }
-                        val subject = Uri.encode("Libro no catalogado en préstamo")
-                        val bodyText = """
-                            Se ha cogido un libro que no está en el catálogo.
-                            
-                            Código / ISBN escaneado: $initialCode
-                            Título: $title
-                            Zona: $zone
-                            Nombre: $name
-                            Correo: $email
-                        """.trimIndent()
-                        val body = Uri.encode(bodyText)
-
-                        val intent = Intent(Intent.ACTION_SENDTO).apply {
-                            data = Uri.parse("mailto:monderas@corrientelebeche.es?subject=$subject&body=$body")
-                        }
-                        try {
-                            context.startActivity(intent)
-                            onDismiss()
-                        } catch (e: Exception) {
-                            Toast.makeText(context, "No se encontró ninguna app de correo", Toast.LENGTH_LONG).show()
+                        scope.launch {
+                            sending = true
+                            val res = com.lebeche.barrioteca.data.SlmsApi.reportUncatalogedBook(initialCode, title, zone, name, email)
+                            sending = false
+                            if (res.success) {
+                                Toast.makeText(context, "Aviso enviado correctamente a las monderas", Toast.LENGTH_LONG).show()
+                                onDismiss()
+                            } else {
+                                Toast.makeText(context, res.message ?: "Error al enviar el aviso", Toast.LENGTH_LONG).show()
+                            }
                         }
                     },
+                    enabled = !sending,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Enviar aviso por correo")
+                    if (sending) {
+                        androidx.compose.material3.CircularProgressIndicator(
+                            modifier = Modifier.height(20.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text("Enviar aviso")
+                    }
                 }
                 
                 Spacer(Modifier.height(8.dp))

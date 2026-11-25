@@ -118,4 +118,32 @@ object SlmsApi {
     /** Detalle de un único título (sinopsis completa + portada). */
     suspend fun bookDetail(bookId: String): ApiResult =
         get("book-detail", mapOf("id" to bookId))
+
+    /** Envío de aviso de libro no catalogado al nuevo endpoint PHP. */
+    suspend fun reportUncatalogedBook(code: String, title: String, zone: String, name: String, email: String): ApiResult =
+        withContext(Dispatchers.IO) {
+            val url = BuildConfig.SITE_BASE_URL.toHttpUrl().newBuilder()
+                .addPathSegment("barrioteca")
+                .addPathSegment("reportar-libro.php")
+                .build()
+            
+            val body = JSONObject().apply {
+                put("code", code)
+                put("title", title)
+                put("zone", zone)
+                put("name", name)
+                put("email", email)
+            }
+            val media = "application/json; charset=utf-8".toMediaType()
+            val req = Request.Builder().url(url)
+                .post(body.toString().toRequestBody(media))
+                .header("Accept", "application/json")
+                .build()
+            
+            runCatching {
+                client.newCall(req).execute().use { resp ->
+                    parse(resp.body?.string().orEmpty())
+                }
+            }.getOrElse { ApiResult(false, null, null, it.message ?: "Error de red") }
+        }
 }
