@@ -53,6 +53,7 @@ fun CatalogScreen(member: Member?) {
     var loading by remember { mutableStateOf(true) }
     var query by remember { mutableStateOf("") }
     var selected by remember { mutableStateOf<CatalogBook?>(null) }
+    var showUncatalogedDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(RefreshSignal.catalogVersion) {
         loading = true
@@ -109,10 +110,26 @@ fun CatalogScreen(member: Member?) {
                 Modifier.fillMaxWidth().padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) { CircularProgressIndicator() }
-            filtered.isEmpty() -> Text(
-                "El catálogo está vacío.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            filtered.isEmpty() -> {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        "El catálogo está vacío o no se ha encontrado el libro.",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(16.dp))
+                    if (member != null) {
+                        androidx.compose.material3.OutlinedButton(
+                            onClick = { showUncatalogedDialog = true },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Reportar libro sin catalogar")
+                        }
+                    }
+                }
+            }
             else -> LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 320.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -130,6 +147,14 @@ fun CatalogScreen(member: Member?) {
             book = book,
             member = member,
             onDismiss = { selected = null }
+        )
+    }
+
+    if (showUncatalogedDialog && member != null) {
+        UncatalogedBookDialog(
+            initialCode = query,
+            memberName = member.name,
+            onDismiss = { showUncatalogedDialog = false }
         )
     }
 }

@@ -52,6 +52,9 @@ fun ScanScreen(member: Member) {
     var manualCode by remember { mutableStateOf("") }
     var busy by remember { mutableStateOf(false) }
     var logs by remember { mutableStateOf(Prefs.logs(context)) }
+    
+    var showUncatalogedDialog by remember { mutableStateOf(false) }
+    var lastScannedCode by remember { mutableStateOf("") }
 
     fun runAction(raw: String) {
         val code = raw.trim()
@@ -63,6 +66,9 @@ fun ScanScreen(member: Member) {
             if (res.success) {
                 RefreshSignal.bumpCatalog()
                 RefreshSignal.bumpLoans()
+            } else if (action == "prestamo") {
+                // If borrow failed, it might be an uncataloged book. Save the code to pre-fill the form.
+                lastScannedCode = code
             }
             Prefs.addLog(
                 context,
@@ -154,6 +160,15 @@ fun ScanScreen(member: Member) {
         }
 
         item {
+            androidx.compose.material3.TextButton(
+                onClick = { showUncatalogedDialog = true },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("¿El libro no existe? Reportar libro sin catalogar")
+            }
+        }
+
+        item {
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -180,6 +195,14 @@ fun ScanScreen(member: Member) {
         } else {
             items(logs, key = { it.id }) { log -> LogRow(log) }
         }
+    }
+
+    if (showUncatalogedDialog) {
+        UncatalogedBookDialog(
+            initialCode = lastScannedCode.ifBlank { manualCode },
+            memberName = member.name,
+            onDismiss = { showUncatalogedDialog = false }
+        )
     }
 }
 
