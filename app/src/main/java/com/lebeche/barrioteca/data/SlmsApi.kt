@@ -122,23 +122,21 @@ object SlmsApi {
     /** Envío de aviso de libro no catalogado al endpoint PHP del servidor. */
     suspend fun reportUncatalogedBook(code: String, title: String, zone: String, name: String, email: String): ApiResult =
         withContext(Dispatchers.IO) {
-            // Se usa el proxy/backend original que provee la red local a través de Nginx en Synology NAS
-            // y está disponible externamente vía www.corrientelebeche.es/barrioteca/
+            // El proxy del NAS se come el cuerpo POST a veces, usamos parámetros URL como en el resto de la API.
             val url = BuildConfig.SITE_BASE_URL.toHttpUrl().newBuilder()
                 .addPathSegment("barrioteca")
                 .addPathSegment("reportar-libro.php")
+                .addQueryParameter("code", code)
+                .addQueryParameter("title", title)
+                .addQueryParameter("zone", zone)
+                .addQueryParameter("name", name)
+                .addQueryParameter("email", email)
                 .build()
             
-            val body = JSONObject().apply {
-                put("code", code)
-                put("title", title)
-                put("zone", zone)
-                put("name", name)
-                put("email", email)
-            }
-            val media = "application/json; charset=utf-8".toMediaType()
+            // Mandamos POST con un cuerpo vacío (ya que los parámetros viajan en la URL)
+            val media = "application/x-www-form-urlencoded".toMediaType()
             val req = Request.Builder().url(url)
-                .post(body.toString().toRequestBody(media))
+                .post("".toRequestBody(media))
                 .header("Accept", "application/json")
                 .build()
             
