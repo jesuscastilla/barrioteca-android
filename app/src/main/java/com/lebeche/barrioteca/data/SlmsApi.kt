@@ -119,9 +119,11 @@ object SlmsApi {
     suspend fun bookDetail(bookId: String): ApiResult =
         get("book-detail", mapOf("id" to bookId))
 
-    /** Envío de aviso de libro no catalogado al nuevo endpoint PHP. */
+    /** Envío de aviso de libro no catalogado al endpoint PHP del servidor. */
     suspend fun reportUncatalogedBook(code: String, title: String, zone: String, name: String, email: String): ApiResult =
         withContext(Dispatchers.IO) {
+            // Se usa el proxy/backend original que provee la red local a través de Nginx en Synology NAS
+            // y está disponible externamente vía www.corrientelebeche.es/barrioteca/
             val url = BuildConfig.SITE_BASE_URL.toHttpUrl().newBuilder()
                 .addPathSegment("barrioteca")
                 .addPathSegment("reportar-libro.php")
